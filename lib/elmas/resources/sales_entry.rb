@@ -16,7 +16,7 @@ module Elmas
 
     def other_attributes
       %i[batch_number currency document due_date entry_date entry_number invoice_number order_number payment_condition payment_reference
-         process_number rate reporting_period reporting_year reversal VAT_amount_FC your_ref description]
+         process_number rate reporting_period reporting_year reversal VAT_amount_FC your_ref description amount_FC]
     end
   end
 end
