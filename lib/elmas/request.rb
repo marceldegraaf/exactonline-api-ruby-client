@@ -40,6 +40,11 @@ module Elmas
       headers["Content-Type"] = content_type
       headers["Accept"] = content_type
       headers["Authorization"] = "Bearer #{access_token}" if access_token
+
+      if options[:custom_description_language]
+        headers["CustomDescriptionLanguage"] = options[:custom_description_language]
+      end
+
       headers
     end
 
