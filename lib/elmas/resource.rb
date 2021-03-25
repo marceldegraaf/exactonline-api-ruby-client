@@ -10,7 +10,7 @@ module Elmas
     include UriMethods
     include Sanitizer
 
-    attr_accessor :attributes, :url
+    attr_accessor :attributes, :url, :filters, :select
     attr_reader :response
 
     def initialize(attributes = {})
