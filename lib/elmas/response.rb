@@ -9,16 +9,32 @@ module Elmas
     attr_writer :body
 
     def initialize(response)
-      puts
-      puts response.inspect
-      puts
+      if response.respond_to?(:headers)
+        puts "--- Requests remaining: #{response.headers["x-ratelimit-minutely-remaining"].inspect}"
+      end
 
       @response = response
+
+      raise RateLimitedException.new() if rate_limited?
       raise_and_log_error if fail?
     end
 
     def success?
       @response.success? || SUCCESS_CODES.include?(status)
+    end
+
+    def rate_limited?
+      if @response.respond_to?(:headers)
+        header = response.headers["x-ratelimit-minutely-remaining"]
+
+        if header
+          header.to_i <= 0
+        else
+          false
+        end
+      else
+        false
+      end
     end
 
     def body

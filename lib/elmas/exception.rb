@@ -18,4 +18,6 @@ module Elmas
   end
 
   class UnauthorizedException < StandardError; end
+
+  class RateLimitedException < StandardError; end
 end
