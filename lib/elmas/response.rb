@@ -9,6 +9,10 @@ module Elmas
     attr_writer :body
 
     def initialize(response)
+      puts
+      puts response.inspect
+      puts
+
       @response = response
       raise_and_log_error if fail?
     end
@@ -22,9 +26,6 @@ module Elmas
     end
 
     def parsed
-      puts
-      puts body.inspect
-      puts
       Parser.new(body)
     end
 
