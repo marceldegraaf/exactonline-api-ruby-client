@@ -79,11 +79,13 @@ module Elmas
     # Getter/Setter for resource
     def method_missing(method, *args, &block)
       yield if block
+
       if /^(\w+)=$/ =~ method
         set_attribute($1, args[0])
       else
-        nil unless @attributes[method.to_sym]
+        nil unless @attributes && @attributes[method.to_sym]
       end
+
       @attributes[method.to_sym]
     end
 
