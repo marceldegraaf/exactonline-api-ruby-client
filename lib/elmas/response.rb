@@ -22,6 +22,9 @@ module Elmas
     end
 
     def parsed
+      puts
+      puts body.inspect
+      puts
       Parser.new(body)
     end
 
