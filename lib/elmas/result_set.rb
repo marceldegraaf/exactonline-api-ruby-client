@@ -54,7 +54,6 @@ module Elmas
 
         klass
       rescue NameError
-        Elmas.debug("Unknown resource encountered, proceed as usual but further resource details might have to be implemented")
         Class.new { include Elmas::Resource }
       end
     end
