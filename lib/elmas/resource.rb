@@ -86,7 +86,11 @@ module Elmas
         nil unless @attributes && @attributes[method.to_sym]
       end
 
-      @attributes[method.to_sym]
+      if @attributes
+        @attributes[method.to_sym]
+      else
+        nil
+      end
     end
 
     private
