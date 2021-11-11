@@ -59,7 +59,7 @@ module Elmas
     ].freeze
 
     ERROR_CODES = [
-      400, 401, 402, 403, 404, 500, 501, 502, 503
+      400, 401, 402, 403, 404, 429, 500, 501, 502, 503
     ].freeze
 
     UNAUTHORIZED_CODES = [
