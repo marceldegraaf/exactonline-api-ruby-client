@@ -9,11 +9,6 @@ module Elmas
     attr_writer :body
 
     def initialize(response)
-      if response.respond_to?(:headers)
-        puts "--- Minutely requests remaining: #{response.headers["x-ratelimit-minutely-remaining"].inspect}"
-        puts "--- Daily requests remaining: #{response.headers["x-ratelimit-remaining"].inspect}"
-      end
-
       @response = response
 
       raise MinutelyRateLimitExceededException.new() if minutely_rate_limit_exceeded?
