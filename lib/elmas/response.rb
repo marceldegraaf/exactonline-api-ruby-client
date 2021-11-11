@@ -10,12 +10,15 @@ module Elmas
 
     def initialize(response)
       if response.respond_to?(:headers)
-        puts "--- Requests remaining: #{response.headers["x-ratelimit-minutely-remaining"].inspect}"
+        puts "--- Minutely requests remaining: #{response.headers["x-ratelimit-minutely-remaining"].inspect}"
+        puts "--- Daily requests remaining: #{response.headers["x-ratelimit-remaining"].inspect}"
       end
 
       @response = response
 
-      raise RateLimitedException.new() if rate_limited?
+      raise MinutelyRateLimitExceededException.new() if minutely_rate_limit_exceeded?
+      raise DailyRateLimitExceededException.new() if daily_rate_limit_exceeded?
+
       raise_and_log_error if fail?
     end
 
@@ -23,18 +26,12 @@ module Elmas
       @response.success? || SUCCESS_CODES.include?(status)
     end
 
-    def rate_limited?
-      if @response.respond_to?(:headers)
-        header = response.headers["x-ratelimit-minutely-remaining"]
+    def minutely_rate_limit_exceeded?
+      rate_limit_exceeded?("x-ratelimit-minutely-remaining")
+    end
 
-        if header
-          header.to_i <= 0
-        else
-          false
-        end
-      else
-        false
-      end
+    def daily_rate_limit_exceeded?
+      rate_limit_exceeded?("x-ratelimit-remaining")
     end
 
     def body
@@ -87,6 +84,20 @@ module Elmas
     def raise_and_log_error
       log_error
       raise BadRequestException.new(@response, parsed)
+    end
+
+    def rate_limit_exceeded?(header_name)
+      if @response.respond_to?(:headers)
+        header = response.headers[header_name]
+
+        if header
+          header.to_i <= 0
+        else
+          false
+        end
+      else
+        false
+      end
     end
   end
 end

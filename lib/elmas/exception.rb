@@ -19,5 +19,6 @@ module Elmas
 
   class UnauthorizedException < StandardError; end
 
-  class RateLimitedException < StandardError; end
+  class MinutelyRateLimitExceededException < StandardError; end
+  class DailyRateLimitExceededException < StandardError; end
 end
